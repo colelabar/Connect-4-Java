@@ -1,5 +1,6 @@
 package connect4;
 
+// project imports
 import java.util.*;
 
 public class connectFour {
@@ -10,6 +11,8 @@ public class connectFour {
 	static char playerToken = 'O';
 	
 	public static void main(String[] args) {
+		
+		// Game-play settings and logic loop
 		playBoard = popBoard(playBoard, '~');
 		
 		while(true) {
@@ -28,11 +31,12 @@ public class connectFour {
 				playerToken = changePlayer(playerToken);
 			}
 			
+			
 		}
 
 	}
 	
-	// Populate board with open board positions
+	// Populate board with open board positions since there can't be any truly "empty" spaces
 	public static char[][] popBoard(char[][] playBoard, char boardChar) {
 		for (int x = 0; x < playBoard.length; x++) {
 			java.util.Arrays.fill(playBoard[x], 0, playBoard[x].length, boardChar);
@@ -55,9 +59,12 @@ public class connectFour {
 	// Attempt the player's proposed move
 	public static boolean tryMove(char[][] playBoard, int y, char playerToken) {
 		boolean findings = false;
-		
-		// first check to see if the vertical line containing the desired move is full 
-		if(playBoard[0][y] != '~') {
+		// first check to see that the entered column number (y) is a valid move choice
+		if(y < 0 || y > 7) {
+			System.out.println("Incorrect column choice! You must select a column number between 1 and 7.");
+			return false;
+		} else if(playBoard[0][y] != '~') {
+			// next check to see if the vertical line containing the desired move is full
 			System.out.println("Full column! Select another to drop your piece.");
 			return false;
 		}
@@ -73,6 +80,7 @@ public class connectFour {
 	}
 	
 	// check for win conditions in all possible cases (horiz, vert, diag1, diag2)
+	// iterate through both char loops and check to see if 4 tokens in any row match each other
 	public static boolean winCheck(char[][] playBoard) {
 		boolean check = false;
 		
